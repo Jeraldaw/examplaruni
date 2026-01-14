@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Strategist - ShoreSquad</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. SHARED STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #F1F5F9; 
+            color: #1E293B; 
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        ul { list-style: none; }
+
+        /* --- 2. NAVBAR --- */
+        .navbar {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #64748B;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active { color: #2563EB; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- 3. PAGE CONTENT --- */
+        .page-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .bot-wrapper { 
+            width: 100%; 
+            max-width: 600px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 24px; 
+        }
+
+        .card { 
+            background: white; 
+            border: 1px solid #E2E8F0; 
+            border-radius: 16px; 
+            padding: 30px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 { color: #0F172A; margin-bottom: 20px; font-weight: 700; margin-top: 0; }
+        
+        label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            color: #475569; 
+            font-size: 0.9rem;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            border: 1px solid #CBD5E1; 
+            background: white; 
+            color: #1E293B; 
+            font-family: inherit;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background-color: #2563EB; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: #1D4ED8; transform: translateY(-2px); }
+        button:disabled { background-color: #94A3B8; cursor: not-allowed; transform: none; }
+
+        #status-msg { 
+            margin-top: 20px; 
+            text-align: center; 
+            font-weight: 600; 
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>🎓</span>
+                <span>Uni helper</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#map" class="nav-link">Map</a></li>
+                <li><a href="index.html#weather" class="nav-link">Pulse</a></li>
+                <li><a href="index.html#events" class="nav-link">Events</a></li>
+                <li><a href="indexn8nbot.html" class="nav-link">Resume analyzer Bot</a></li>
+                <li><a href="chatbot.html" class="nav-link">Chatbot</a></li>
+                <li><a href="resume_for_university.html" class="nav-link">Submit Uni application</a></li>
+            </ul>
+            <button class="menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <div class="bot-wrapper">
+            <div class="card">
+                <h2>Resume Submission</h2>
+                <p style="margin-bottom: 20px; color: #64748B;">You are applying for Bachelor of Science in AI & Machine Learning in examplar university . </p>
+                <p style="margin-bottom: 20px; color: #64748B;">Please provide your details and upload your PDF resume for analysis.</p>
+                
+                <form id="resume-form">
+                    <label>Full Name:</label>
+                    <input type="text" id="fullName" placeholder="e.g. Jerald Aw" required>
+
+                    <label>Gmail Address:</label>
+                    <input type="email" id="email" placeholder="e.g. jerald@gmail.com" required>
+                    
+                    <label>Upload Resume (PDF/TXT):</label>
+                    <input type="file" id="resume-upload">
+                    
+                    <button type="submit" id="submit-btn">Submit Application</button>
+                </form>
+                <div id="status-msg"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- Updated Webhook URL ---
+        const WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook/7ae78bac-0641-42b6-b165-4a31f236281asadd"
+        const form = document.getElementById('resume-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const statusMsg = document.getElementById('status-msg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const fileInput = document.getElementById('resume-upload');
+
+            submitBtn.innerText = "Processing...";
+            submitBtn.disabled = true;
+            statusMsg.style.display = "block";
+            statusMsg.style.color = "#2563EB";
+            statusMsg.innerText = "Uploading to n8n...";
+
+            // Create Multi-part Form Data
+            const formData = new FormData();
+            formData.append('fullName', fullName);
+            formData.append('email', email);
+            if (fileInput.files[0]) {
+                formData.append('Upload_CV', fileInput.files[0]);
+            }
+
+            try {
+                const response = await fetch(WEBHOOK_URL, { 
+                    method: 'POST', 
+                    body: formData 
+                });
+
+                if (response.ok) {
+                    statusMsg.style.color = "#16A34A";
+                    statusMsg.innerText = "Success! Your resume has been submitted.";
+                    form.reset();
+                } else {
+                    throw new Error("Server responded with " + response.status);
+                }
+
+            } catch (error) {
+                statusMsg.style.color = "#DC2626";
+                statusMsg.innerText = "Submission Error: " + error.message;
+            } finally {
+                submitBtn.innerText = "Submit Application";
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Mobile Menu Toggle
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

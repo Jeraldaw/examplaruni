@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Strategist - ShoreSquad</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+    <style>
+        /* --- 1. SHARED STYLES (Matches index.html) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #F1F5F9; 
+            color: #1E293B; 
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        ul { list-style: none; }
+
+        /* --- 2. NAVBAR --- */
+        .navbar {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #64748B;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active { color: #2563EB; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- 3. PAGE CONTENT --- */
+        .page-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .bot-wrapper { 
+            width: 100%; 
+            max-width: 600px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 24px; 
+        }
+
+        .card { 
+            background: white; 
+            border: 1px solid #E2E8F0; 
+            border-radius: 16px; 
+            padding: 30px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 { color: #0F172A; margin-bottom: 20px; font-weight: 700; margin-top: 0; }
+        
+        label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            color: #475569; 
+            font-size: 0.9rem;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            border: 1px solid #CBD5E1; 
+            background: white; 
+            color: #1E293B; 
+            font-family: inherit;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background-color: #2563EB; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: #1D4ED8; transform: translateY(-2px); }
+        button:disabled { background-color: #94A3B8; cursor: not-allowed; transform: none; }
+
+        .result-box { display: none; border-top: 2px solid #F1F5F9; margin-top: 10px; }
+        .score-container { text-align: center; margin-bottom: 20px; }
+        .score { font-size: 3rem; font-weight: 800; color: #2563EB; line-height: 1; }
+        .explanation-box {
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 8px;
+            color: #334155;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            font-size: 0.95rem;
+            border: 1px solid #E2E8F0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                border-bottom: 1px solid #E2E8F0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>🎓</span>
+                <span>Uni helper</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#map" class="nav-link">Map</a></li>
+                <li><a href="index.html#weather" class="nav-link">Pulse</a></li>
+                <li><a href="index.html#events" class="nav-link">Events</a></li>
+                <li><a href="indexn8nbot.html" class="nav-link">Resume analyzer Bot</a></li>
+                <li><a href="chatbot.html" class="nav-link">Chatbot</a></li>
+                <li><a href="resume_for_university.html" class="nav-link">Submit Uni application</a></li>
+            </ul>
+            
+            <button class="menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <div class="bot-wrapper">
+            <div class="card">
+                <h2>Resume Strategy Analyzer</h2>
+                <p style="margin-bottom: 20px; color: #64748B;">Upload your resume and the target job role. Our AI agent will score your fit and give specific advice.</p>
+                
+                <form id="safe-form">
+                    <label>Target Role:</label>
+                    <input type="text" id="role" placeholder="e.g. Data Analyst" required>
+                    
+                    <label>Upload Resume (PDF):</label>
+                    <input type="file" id="resume-upload" accept=".pdf,.docx,.txt">
+                    
+                    <button type="submit" id="submit-btn">Analyze Resume</button>
+                </form>
+            </div>
+
+            <div class="card result-box" id="result-area">
+                <div id="score-container" class="score-container">
+                    <label>Match Score</label>
+                    <div class="score" id="display-score">0%</div>
+                </div>
+                
+                <label>Strategic Feedback:</label>
+                <div id="display-explanation" class="explanation-box">Waiting for results...</div>
+            </div>
+        </div>
+    </main>
+
+    
+
+    <script>
+        // Menu Toggle Logic
+        const menuBtn = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuBtn && navLinks) {
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // --- Resume Bot Logic (Webhook 7ae7...) ---
+        const WEBHOOK_URL = 'https://n8ngc.codeblazar.org/webhook/7ae78bac-0641-42b6-b165-4a31f236281a';
+
+        const form = document.getElementById('safe-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultArea = document.getElementById('result-area');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('resume-upload');
+            const roleInput = document.getElementById('role');
+
+            submitBtn.innerText = "Analyzing...";
+            submitBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('role', roleInput.value);
+            if (fileInput.files[0]) formData.append('data', fileInput.files[0]);
+
+            try {
+                const response = await fetch(WEBHOOK_URL, { method: 'POST', body: formData });
+                const rawText = await response.text();
+                
+                let result;
+                try {
+                    result = JSON.parse(rawText);
+                } catch (err) {
+                    result = { qualificationRate: 0, explanation: rawText };
+                }
+
+                resultArea.style.display = 'block';
+                
+                let percentage = result.qualificationRate || 0;
+                if (percentage <= 1) percentage = Math.round(percentage * 100);
+
+                if (percentage === 0) {
+                    document.getElementById('score-container').style.display = 'none';
+                } else {
+                    document.getElementById('score-container').style.display = 'block';
+                    document.getElementById('display-score').innerText = percentage + "%";
+                }
+                
+                document.getElementById('display-explanation').innerText = result.explanation;
+
+            } catch (error) {
+                alert("System Error: " + error.message);
+            } finally {
+                submitBtn.innerText = "Analyze Resume";
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

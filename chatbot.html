@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Chatbot - ShoreSquad</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+    <style>
+        /* --- 1. SHARED STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background-color: #F1F5F9; 
+            color: #1E293B; 
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        ul { list-style: none; }
+
+        /* --- 2. NAVBAR --- */
+        .navbar {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #64748B;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active { color: #2563EB; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- 3. PAGE CONTENT --- */
+        .container { 
+            max-width: 800px; 
+            margin: 60px auto; 
+            padding: 40px; 
+            text-align: center;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 { font-size: 2.5rem; font-weight: 800; color: #0F172A; margin-bottom: 16px; }
+        p { font-size: 1.1rem; color: #64748B; margin-bottom: 30px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+            .container { margin: 20px; padding: 30px 20px; }
+        }
+
+        /* --- 4. CHAT CUSTOMIZATION --- */
+        :root {
+            --n8n-chat-primary-color: #2563EB;
+            --n8n-chat-button-background: #2563EB;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>🎓</span>
+                <span>Uni helper</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#map" class="nav-link">Map</a></li>
+                <li><a href="index.html#weather" class="nav-link">Pulse</a></li>
+                <li><a href="index.html#events" class="nav-link">Events</a></li>
+                <li><a href="indexn8nbot.html" class="nav-link">Resume analyzer Bot</a></li>
+                <li><a href="chatbot.html" class="nav-link">Chatbot</a></li>
+                <li><a href="resume_for_university.html" class="nav-link">Submit Uni application</a></li>
+            </ul>
+            <button class="menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>Campus Assistant</h1>
+        <p>I can help you find ut how to get into university by work experience, how to create a resume, or improve you resume. For further improvements you can click on our resume analyzer in our navbar</p>
+        <p style="font-size: 0.9rem; color: #94A3B8;">(Click the chat bubble in the bottom right corner to start)</p>
+    </main>
+
+    <div id="n8n-chat"></div>
+
+    <script type="module">
+        // Import n8n chat bundle
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        createChat({
+            // Your new webhook-test link
+            webhookUrl: 'https://n8ngc.codeblazar.org/webhook/4091fa09-fb9a-4039-9411-7104d213f601/chat',
+            mode: 'window', 
+            showWelcomeScreen: true,
+            initialMessages: [
+                'Hi there! I am your Pro Uni assistant. How can I help you today?'
+            ],
+            i18n: {
+                en: {
+                    title: 'Uni Helper Pro',
+                    subtitle: 'Campus Assistant',
+                    footer: 'Powered by n8n',
+                    getStarted: 'Explore new possibilities here!',
+                    inputPlaceholder: 'Type your question here...'
+                }
+            }
+        });
+
+        // Mobile Menu Toggle logic
+        const menuBtn = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuBtn && navLinks) {
+            menuBtn.addEventListener('click', () => {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '70px';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.background = 'white';
+                navLinks.style.padding = '20px';
+                navLinks.style.borderBottom = '1px solid #E2E8F0';
+            });
+        }
+    </script>
+</body>
+</html>
