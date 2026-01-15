@@ -168,6 +168,65 @@
             .nav-links { display: none; }
             .menu-toggle { display: block; }
         }
+
+        /* Container for the whole row */
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    align-items: stretch; /* Ensures all cards are the same height */
+}
+
+.action-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column; /* Vertical stack */
+    text-align: left; /* Aligns text to left as seen in your image */
+    transition: transform 0.2s;
+}
+
+.action-card h3 {
+    margin: 15px 0 10px 0;
+    font-size: 1.4rem;
+    color: #1a1a1a;
+}
+
+.action-card p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1; /* THIS pushes the button to the bottom */
+}
+
+/* Styling the links to look like actual buttons */
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-circle {
+    width: 60px;
+    height: 60px;
+    background: #2563eb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
     </style>
 </head>
 <body>
@@ -238,6 +297,43 @@
                 <button id="locationButton">Reset View</button>
             </div>
         </section>
+<section class="quick-actions">
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="action-grid">
+        <div class="action-card">
+            <div class="icon-wrapper">
+                <div class="btn-circle">🔍</div>
+            </div>
+            <h3>Resume Analyzer</h3>
+            <p>Upload your resume and target job role or target degree. Our AI agent scores your fit and provides specific improvement advice for people who want to go to university based on work experience.</p>
+            <div class="button-container">
+                <a href="indexn8nbot.html" class="cta-button">Launch Bot →</a>
+            </div>
+        </div>
+
+        <div class="action-card">
+            <div class="icon-wrapper">
+                <div class="btn-circle">💬</div>
+            </div>
+            <h3>Admissions Chatbot</h3>
+            <p>Get guidance on university entry via work experience and tips on optimizing your application profile.</p>
+            <div class="button-container">
+                <a href="chatbot.html" class="cta-button">Start Chat →</a>
+            </div>
+        </div>
+
+        <div class="action-card">
+            <div class="icon-wrapper">
+                <div class="btn-circle">🎓</div>
+            </div>
+            <h3>Apply for BSc AI & ML</h3>
+            <p>Ready to join Exemplar University? Submit your details and PDF resume here for a formal application analysis.</p>
+            <div class="button-container">
+                <a href="resume_for_university.html" class="cta-button">Apply Now →</a>
+            </div>
+        </div>
+    </div>
+</section>
 
         <section id="weather">
             <h2>Campus Pulse</h2>
