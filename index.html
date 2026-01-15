@@ -380,7 +380,84 @@
                 </div>
             </div>
         </section>
+        <section>
+        <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+        webhookUrl: 'https://n8ngc.codeblazar.org/webhook/4091fa09-fb9a-4039-9411-7104d213f601/chat',
+        mode: 'window', 
+        showWelcomeScreen: true,
+        
+        /* --- 1. ENHANCED THEME CONFIGURATION --- */
+        theme: {
+            primaryColor: '#2563EB',      /* Matches your logo and buttons */
+            secondaryColor: '#F8FAFC',    /* Light background for messages */
+            backgroundColor: '#FFFFFF',
+            fontFamily: "'Inter', sans-serif",
+            button: {
+                backgroundColor: '#2563EB',
+                size: 'large',             /* Makes the toggle easier to click */
+            },
+        },
+
+        /* --- 2. PERSONALIZED TEXT & ICONS --- */
+        initialMessages: [
+            '👋 Hi there! I am your **Uni Helper Pro** assistant.',
+            'I can help you help you find out more information of how to enter university based on work experience.',
+            'I can create and refine your resume to enter University or work based on the role you want.  What’s on your mind?'
+        ],
+        i18n: {
+            en: {
+                title: 'Uni Helper Pro',
+                subtitle: 'Always active',
+                footer: 'Powered by AI & n8n',
+                getStarted: 'Let’s optimize your university journey!',
+                inputPlaceholder: 'Ask me anything about campus...'
+            }
+        }
+    });
+
+    // Mobile Menu Toggle logic (Kept same)
+    const menuBtn = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (menuBtn && navLinks) {
+        menuBtn.addEventListener('click', () => {
+            const isFlex = navLinks.style.display === 'flex';
+            navLinks.style.display = isFlex ? 'none' : 'flex';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '70px';
+            navLinks.style.left = '0';
+            navLinks.style.width = '100%';
+            navLinks.style.background = 'white';
+            navLinks.style.padding = '20px';
+            navLinks.style.borderBottom = '1px solid #E2E8F0';
+        });
+    }
+</script>
+
+<style>
+    /* Custom shadow and rounded corners for the n8n chat window */
+    .n8n-chat-window {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        border-radius: 16px !important;
+        border: 1px solid #E2E8F0 !important;
+        overflow: hidden;
+    }
+    
+    /* Make the chat toggle button hover effect smoother */
+    .n8n-chat-button {
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    }
+    .n8n-chat-button:hover {
+        transform: scale(1.1);
+    }
+</style>
+        </section>
+        
     </main>
 
     <script src="js/app.js"></script>
